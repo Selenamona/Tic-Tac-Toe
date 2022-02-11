@@ -39,3 +39,11 @@ ol, ul {
 .kbd-navigation .square:focus {
   background: #ddd;
 } 
+
+.font-bold-class {
+  font-weight: bold;
+}
+
+.light-square {
+  color:green;
+}
