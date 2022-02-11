@@ -80,7 +80,7 @@ class Game extends React.Component {
       ? "Winner: " + winner
       : current.squares.includes(null)
       ? `Next player: ${this.state.xISNext ? "X" : "O"}`
-      : "平局啦啦啦啦";
+      : "Play even！";
 
     // 渲染历史记录列表
     const moves = history.map((step, move) => {
@@ -110,8 +110,8 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <button onClick={() => this.reStart()}>重玩</button>
-          <button onClick={() => this.changeRank()}>升降序</button>
+          <button onClick={() => this.reStart()}>reStart</button>
+          <button onClick={() => this.changeRank()}>changeRank</button>
           <div> {status} </div> <ol> {moves} </ol>
         </div>
       </div>
@@ -195,5 +195,67 @@ class Game extends React.Component {
     });
   }
 }
+
+// 五子棋获得所有赢法
+let allwin = [];
+function getCount(x, y, n) {
+  let countTemp = 0,
+    ym = y - n + 1,
+    xm = x - n + 1;
+
+  for (let i = 0; i < x; i++) {
+    allwin[i] = [];
+    for (let j = 0; j < y; j++) {
+      allwin[i][j] = [];
+    }
+  }
+  //横线
+  for (let i = 0; i < y; i++) {
+    for (let j = 0; j < xm; j++) {
+      for (let k = 0; k < n; k++) {
+        allwin[j + k][i][countTemp] = true;
+        console.log("横线", j + k, i, countTemp);
+      }
+      countTemp++;
+    }
+  }
+
+  //纵线
+  for (let i = 0; i < x; i++) {
+    for (let j = 0; j < ym; j++) {
+      for (let k = 0; k < n; k++) {
+        allwin[i][j + k][countTemp] = true;
+        console.log("纵线", i, j + k, countTemp);
+      }
+      countTemp++;
+    }
+  }
+  //正斜线
+  for (let i = 0; i < xm; i++) {
+    for (let j = 0; j < ym; j++) {
+      for (let k = 0; k < n; k++) {
+        allwin[i + k][j + k][countTemp] = true;
+        console.log("正斜线", i + k, j + k, countTemp);
+      }
+      countTemp++;
+    }
+  }
+  //反斜线
+  for (let i = 0; i < xm; i++) {
+    for (let j = 0; j < ym; j++) {
+      for (let k = 0; k < n; k++) {
+        allwin[i + k][j + k][countTemp] = true;
+        console.log("反斜线", i + k, j + k, countTemp);
+      }
+      countTemp++;
+    }
+  }
+  return countTemp;
+}
+var count = getCount(2, 2, 2);
+// var count = getCount(3, 3, 3);
+// var count = getCount(5, 5, 5);
+console.log(count);
+console.log(allwin);
 
 ReactDOM.render(<Game />, document.getElementById("root"));
